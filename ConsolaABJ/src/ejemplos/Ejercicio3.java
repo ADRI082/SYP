@@ -52,8 +52,10 @@ public class Ejercicio3 {
 			}
 
 			if(contador == -1) {
+					System.out.println(process.exitValue());
 					System.out.println("Ip Valida!");
 			}else {
+				System.out.println(process.exitValue());
 				System.out.println("Ip no valida!");
 			}
 		
@@ -72,7 +74,7 @@ public class Ejercicio3 {
 	
 	private static int comprobarLinea(String line) {
 		
-		if(line.contains("agotado") || line.contains("intentarlo")) {
+		if(line.contains("agotado") || line.contains("vuelva a intentarlo.")) {
 			return 1;
 		}
 		
