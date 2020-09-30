@@ -79,6 +79,9 @@ public class Windows {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		 reiniciar();
+
 	}
 
 	private void crearFile() {
@@ -96,70 +99,184 @@ public class Windows {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		 reiniciar();
+
 
 	}
 
 	private StringBuilder getIpConfig() {
-		
-		
-		
+
 		pb = new ProcessBuilder();
 		pb.command("powershell", "ipconfig -all");
-		
+
 		try {
 			bd = new StringBuilder();
 			process = pb.start();
-			
+
 			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-			
+
 			String line = "";
-			
+
 			while ((line = reader.readLine()) != null) {
-				
+
 				bd.append(line + "\n");
 			}
-			
-			
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return bd;
 	}
 
 	private void listarInter() {
 		// TODO Auto-generated method stub
-		
+
 		System.out.println(getIpConfig());
+		reiniciar();
+
 
 	}
 
 	private void ipOrdenador() {
 		// TODO Auto-generated method stub
-		
-	
+
+		System.out.println("Introduce nombre del adaptador" + "\n");
+		sc = new Scanner(System.in);
+		String adaptador = sc.nextLine();
+
+		pb = new ProcessBuilder();
+		pb.command("powershell", "Get-NetAdapter -Name " + adaptador + " | Get-NetIPAddress -AddressFamily IPv4");
+
+		try {
+			bd = new StringBuilder();
+			process = pb.start();
+
+			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+			String line = "";
+			boolean encontrado = false;
+
+			while ((line = reader.readLine()) != null && !encontrado) {
+
+				if (line.contains("IPAddress")) {
+					encontrado = true;
+				}
+
+				bd.append(line + "\n");
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		
-		
+
+		System.out.println(bd.toString());
+		 reiniciar();
+
 
 	}
 
 	private void macOrdenador() {
 		// TODO Auto-generated method stub
 
+		System.out.println("Introduce nombre del adaptador" + "\n");
+		sc = new Scanner(System.in);
+		String adaptador = sc.nextLine();
+
+		pb = new ProcessBuilder();
+		pb.command("powershell", "(Get-NetAdapter -Name " + adaptador + ").MacAddress");
+
+		try {
+			bd = new StringBuilder();
+			process = pb.start();
+
+			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+			String line = "";
+			boolean encontrado = false;
+
+			bd.append(line = reader.readLine());
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		System.out.println("Mac del adaptador : " + bd.toString());
+		
+		 reiniciar();
+
+
 	}
 
 	private void comprobarConectividad() {
-		// TODO Auto-generated method stub
+
+		System.out.println("Introduce Ip para comprobar" + "\n");
+		sc = new Scanner(System.in);
+		String IP = sc.nextLine();
+
+		pb = new ProcessBuilder();
+		pb.command("powershell", "ping " + IP);
+
+		try {
+			bd = new StringBuilder();
+			process = pb.start();
+
+			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+			String line = "";
+			int contador = -1;
+
+			while ((line = reader.readLine()) != null && contador == -1) {
+
+				contador = comprobarLinea(line);
+
+				bd.append(line + "\n");
+			}
+
+			if (contador == -1) {
+				System.out.println("Ip Valida!");
+			} else {
+				System.out.println("Ip no valida!");
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		 reiniciar();
 
 	}
 
 	private void salir() {
 		// TODO Auto-generated method stub
+		System.out.println("Hasta pronto!");
+	}
 
+	private int comprobarLinea(String line) {
+
+		if (line.contains("agotado") || line.contains("intentarlo")) {
+			return 1;
+		}
+
+		return -1;
+	}
+	
+	private void reiniciar() {
+		System.out.println("Deseas hacer otra cosa? y/n");
+		sc = new Scanner(System.in);
+		
+		if(sc.nextLine().equals("y")) {
+			iniciar();
+		}else {
+			salir();
+		}
+		
+		
 	}
 
 }
