@@ -1,32 +1,20 @@
 package iespablopicasso.es;
 
+
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
-public class Windows {
-
-	private Process process;
-	private ProcessBuilder pb;
-	private Scanner sc;
-	private StringBuilder bd;
-	private BufferedReader reader;
+public class Windows extends SO {
 
 	public Windows() {
-		iniciar();
-	}
-
-	private void iniciar() {
-		System.out.println("¿Que proceso quieres lanzar?" + "\n" + "1.Crear un directorio" + "\n" + "2.Crear fichero"
-				+ "\n" + "3.Lista interfaces de red" + "\n" + "4.Mostrar ip del ordenador dada interfaz red" + "\n"
-				+ "5.Mostrar la dirección MAC dado el nombre de la interfaz de red" + "\n"
-				+ "6.Comprobar conectividad con internet" + "\n" + "7.Salir" + "\n");
-
-		sc = new Scanner(System.in);
-		String seleccion = sc.nextLine();
-		seleccionar(seleccion);
-
+		super();
+		seleccionar(ConsolaHelper.respuesta);
+		
+		
 	}
 
 	public void seleccionar(String seleccion) {
@@ -59,15 +47,17 @@ public class Windows {
 		case "7":
 			salir();
 			break;
-
 		}
 	}
+	
+	/**
+	 * Metodo que crea un directorio en la ruta especificada y en con el nombre que le hayas proporcionado.
+	 * Si la ruta no existe, tienes que volver a reptirla hasta que sea correcta.
+	 */
 
 	private void crearDir() {
 
-		System.out.println("porfavor escribe ruta'\'nombre" + "\n");
-		sc = new Scanner(System.in);
-		String dir = sc.nextLine();
+		String dir = super.comprobarRuta();
 
 		pb = new ProcessBuilder();
 
@@ -80,15 +70,15 @@ public class Windows {
 			e.printStackTrace();
 		}
 		
-		 reiniciar();
+		System.out.println("Directorio creado con exito!!!"+ "\n");
+
+		reiniciar();
 
 	}
 
 	private void crearFile() {
 
-		System.out.println("porfavor escribe ruta\nombre" + "\n");
-		sc = new Scanner(System.in);
-		String dir = sc.nextLine();
+		String dir = super.comprobarRuta();
 
 		pb = new ProcessBuilder();
 
@@ -100,8 +90,9 @@ public class Windows {
 			e.printStackTrace();
 		}
 		
-		 reiniciar();
+		System.out.println("Fichero creado con exito!!!" + "\n");
 
+		reiniciar();
 
 	}
 
@@ -114,7 +105,7 @@ public class Windows {
 			bd = new StringBuilder();
 			process = pb.start();
 
-			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			reader = new BufferedReader(new InputStreamReader(process.getInputStream(), "Cp850"));
 
 			String line = "";
 
@@ -137,11 +128,12 @@ public class Windows {
 		System.out.println(getIpConfig());
 		reiniciar();
 
-
 	}
 
 	private void ipOrdenador() {
 		// TODO Auto-generated method stub
+		
+		
 
 		System.out.println("Introduce nombre del adaptador" + "\n");
 		sc = new Scanner(System.in);
@@ -173,9 +165,8 @@ public class Windows {
 			e.printStackTrace();
 		}
 
-		System.out.println(bd.toString());
-		 reiniciar();
-
+		System.out.println(bd.toString().substring(bd.lastIndexOf(" ") + 1, bd.length()));
+		reiniciar();
 
 	}
 
@@ -196,7 +187,6 @@ public class Windows {
 			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
 			String line = "";
-			boolean encontrado = false;
 
 			bd.append(line = reader.readLine());
 
@@ -205,10 +195,9 @@ public class Windows {
 			e.printStackTrace();
 		}
 
-		System.out.println("Mac del adaptador : " + bd.toString());
-		
-		 reiniciar();
+		System.out.println(bd.toString());
 
+		reiniciar();
 
 	}
 
@@ -247,8 +236,8 @@ public class Windows {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		 reiniciar();
+
+		reiniciar();
 
 	}
 
@@ -265,18 +254,45 @@ public class Windows {
 
 		return -1;
 	}
-	
-	private void reiniciar() {
-		System.out.println("Deseas hacer otra cosa? y/n");
-		sc = new Scanner(System.in);
-		
-		if(sc.nextLine().equals("y")) {
-			iniciar();
-		}else {
-			salir();
-		}
-		
-		
+
+	public void reiniciar() {
+		super.reiniciar();
+		seleccionar(ConsolaHelper.getRespuesta());
 	}
+
+//	private void listarDirectorios() {
+//		// TODO Auto-generated method stub
+//		
+//		System.out.println("Introduce ruta para listar" + "\n");
+//		sc = new Scanner(System.in);
+//		String ruta = sc.nextLine();
+//
+//		pb = new ProcessBuilder();
+//		pb.command("powershell", "dir " + ruta);
+//
+//		try {
+//			bd = new StringBuilder();
+//			process = pb.start();
+//
+//			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+//
+//			String line = "";
+//
+//			while ((line = reader.readLine()) != null) {
+//
+//				bd.append(line + "\n");
+//			}
+//
+//		System.out.println(bd);
+//
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		
+//		
+//		
+//	}
 
 }
