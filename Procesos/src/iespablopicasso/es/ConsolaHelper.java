@@ -52,6 +52,18 @@ public class ConsolaHelper {
 	public static String comprobarRuta() {
 		String dir = "";
 		String nombre = "";
+		String caracter = "";
+		
+		switch(System.getProperty("os.name")) {
+		
+		case "Windows 10" :
+			caracter = "\\";
+		break;
+			
+		default : 
+			caracter = "/";
+		
+		}
 		
 		do {
 			System.out.println("porfavor escribe una ruta correcta" + "\n");
@@ -65,7 +77,8 @@ public class ConsolaHelper {
 		nombre = sc.nextLine();
 		}while(existNombre(nombre));
 
-		dir = ruta + "\\" + nombre;
+		
+		dir = ruta + caracter + nombre;
 
 		return dir;
 	}
@@ -101,6 +114,7 @@ public class ConsolaHelper {
 			iniciar();
 		} else {
 			salir();
+			setRespuesta("n");
 		}
 
 	}

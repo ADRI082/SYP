@@ -195,7 +195,16 @@ public class Windows extends SO {
 			e.printStackTrace();
 		}
 
-		System.out.println(bd.toString());
+		
+		if(bd.toString().equalsIgnoreCase("null")) {
+			System.out.println("No existe ese adaptador");
+		}else {
+			System.out.println(bd.toString());
+		}
+		
+			
+		
+		
 
 		reiniciar();
 
@@ -257,7 +266,10 @@ public class Windows extends SO {
 
 	public void reiniciar() {
 		super.reiniciar();
-		seleccionar(ConsolaHelper.getRespuesta());
+		if(ConsolaHelper.getRespuesta()!="n") {
+			seleccionar(ConsolaHelper.getRespuesta());
+		}
+		
 	}
 
 //	private void listarDirectorios() {

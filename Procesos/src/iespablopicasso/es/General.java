@@ -95,8 +95,10 @@ public class General extends SO {
 
 	private StringBuilder getIpConfig() {
 
+			
+			pb = new ProcessBuilder();
 		  pb.command("bash", "-c", "ifconfig " + "-a");
-          
+          bd = new StringBuilder();
     
     
     try {
@@ -205,7 +207,12 @@ public class General extends SO {
 	        
 	            
 
-		System.out.println(bd.toString());
+	        if(bd.toString().equalsIgnoreCase("null")) {
+				System.out.println("No existe ese adaptador");
+			}else {
+				System.out.println(bd.toString());
+			}
+				
 		
 		 reiniciar();
 
@@ -268,6 +275,8 @@ public class General extends SO {
 	
 	public void reiniciar() {
 		super.reiniciar();
-		seleccionar(ConsolaHelper.getRespuesta());
+		if(ConsolaHelper.getRespuesta()!="n") {
+			seleccionar(ConsolaHelper.getRespuesta());
+		}
 	}
 }
