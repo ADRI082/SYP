@@ -6,6 +6,11 @@ import java.util.Scanner;
 
 public abstract class SO {
 
+	// HE CREADO UNA CLASE PADRE PARA WINDOWS Y UNIX PARA PODER REUSAR LOS OBJETOS
+	// QUE USAMOS EN LOS COMPORTAMIENTOS
+	// QUE FORMAN EL PROGRAMA PARA ASÍ NO TENER QUE ESTAR SIEMPRE CREANDO Y
+	// DESTRUYENDO OBJETOS.
+
 	protected Process process;
 	protected ProcessBuilder pb;
 	protected Scanner sc;
@@ -18,7 +23,7 @@ public abstract class SO {
 		miConsola = new ConsolaHelper();
 	}
 
-	private void iniciar() {		
+	private void iniciar() {
 		miConsola.iniciar();
 
 	}
@@ -33,7 +38,7 @@ public abstract class SO {
 	}
 
 	private void comprobarRespuesta() {
-		
+
 		miConsola.comprobarRespuesta(miConsola.respuesta);
 
 	}

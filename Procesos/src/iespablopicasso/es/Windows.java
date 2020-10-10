@@ -1,6 +1,5 @@
 package iespablopicasso.es;
 
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -13,8 +12,7 @@ public class Windows extends SO {
 	public Windows() {
 		super();
 		seleccionar(ConsolaHelper.respuesta);
-		
-		
+
 	}
 
 	public void seleccionar(String seleccion) {
@@ -49,10 +47,11 @@ public class Windows extends SO {
 			break;
 		}
 	}
-	
+
 	/**
-	 * Metodo que crea un directorio en la ruta especificada y en con el nombre que le hayas proporcionado.
-	 * Si la ruta no existe, tienes que volver a reptirla hasta que sea correcta.
+	 * Metodo que crea un directorio en la ruta especificada y en con el nombre que
+	 * le hayas proporcionado. Si la ruta no existe, tienes que volver a reptirla
+	 * hasta que sea correcta.
 	 */
 
 	private void crearDir() {
@@ -69,12 +68,16 @@ public class Windows extends SO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		System.out.println("Directorio creado con exito!!!"+ "\n");
+
+		System.out.println("Directorio creado con exito!!!" + "\n");
 
 		reiniciar();
 
 	}
+
+	/**
+	 * Método que crea un fichero especificandole la ruta concreta para crearlo
+	 */
 
 	private void crearFile() {
 
@@ -89,12 +92,19 @@ public class Windows extends SO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		System.out.println("Fichero creado con exito!!!" + "\n");
 
 		reiniciar();
 
 	}
+
+	/**
+	 * Método que devuelve las interfaces de red del ordenador donde esté trabajando
+	 * el usuario
+	 * 
+	 * @return
+	 */
 
 	private StringBuilder getIpConfig() {
 
@@ -130,10 +140,13 @@ public class Windows extends SO {
 
 	}
 
+	/**
+	 * Método que devuelve la ip del adpatador de red, del ordenador con el que el
+	 * usuario está trabajando
+	 */
+
 	private void ipOrdenador() {
 		// TODO Auto-generated method stub
-		
-		
 
 		System.out.println("Introduce nombre del adaptador" + "\n");
 		sc = new Scanner(System.in);
@@ -148,7 +161,6 @@ public class Windows extends SO {
 
 			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
-			
 			boolean encontrado = false;
 
 			while ((line = reader.readLine()) != null && !encontrado) {
@@ -164,18 +176,21 @@ public class Windows extends SO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		if(line == null) {
+
+		if (line == null) {
 			System.out.println("No existe ese adaptador, por favor, introduce un adaptador de red valido" + "\n");
 			ipOrdenador();
-		}else {
+		} else {
 			System.out.println(bd.toString().substring(bd.lastIndexOf(" ") + 1, bd.length()));
 			reiniciar();
 		}
 
-		
-
 	}
+
+	/**
+	 * Método que devuelve la ip del adpatador de red, del ordenador con el que el
+	 * usuario está trabajando
+	 */
 
 	private void macOrdenador() {
 		// TODO Auto-generated method stub
@@ -202,20 +217,19 @@ public class Windows extends SO {
 			e.printStackTrace();
 		}
 
-		
-		if(bd.toString().equalsIgnoreCase("null")) {
+		if (bd.toString().equalsIgnoreCase("null")) {
 			System.out.println("No existe ese adaptador");
-		}else {
+		} else {
 			System.out.println(bd.toString());
 		}
-		
-			
-		
-		
 
 		reiniciar();
 
 	}
+
+	/**
+	 * Método que devuelve si la ip o dominio que le has pasado existe o no
+	 */
 
 	private void comprobarConectividad() {
 
@@ -273,11 +287,10 @@ public class Windows extends SO {
 
 	public void reiniciar() {
 		super.reiniciar();
-		if(ConsolaHelper.getRespuesta()!="n") {
+		if (ConsolaHelper.getRespuesta() != "n") {
 			seleccionar(ConsolaHelper.getRespuesta());
 		}
-		
-	}
 
+	}
 
 }
