@@ -141,14 +141,14 @@ public class Windows extends SO {
 
 		pb = new ProcessBuilder();
 		pb.command("powershell", "Get-NetAdapter -Name " + adaptador + " | Get-NetIPAddress -AddressFamily IPv4");
-
+		String line = "";
 		try {
 			bd = new StringBuilder();
 			process = pb.start();
 
 			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
-			String line = "";
+			
 			boolean encontrado = false;
 
 			while ((line = reader.readLine()) != null && !encontrado) {
@@ -164,9 +164,16 @@ public class Windows extends SO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		if(line == null) {
+			System.out.println("No existe ese adaptador, por favor, introduce un adaptador de red valido" + "\n");
+			ipOrdenador();
+		}else {
+			System.out.println(bd.toString().substring(bd.lastIndexOf(" ") + 1, bd.length()));
+			reiniciar();
+		}
 
-		System.out.println(bd.toString().substring(bd.lastIndexOf(" ") + 1, bd.length()));
-		reiniciar();
+		
 
 	}
 
@@ -272,39 +279,5 @@ public class Windows extends SO {
 		
 	}
 
-//	private void listarDirectorios() {
-//		// TODO Auto-generated method stub
-//		
-//		System.out.println("Introduce ruta para listar" + "\n");
-//		sc = new Scanner(System.in);
-//		String ruta = sc.nextLine();
-//
-//		pb = new ProcessBuilder();
-//		pb.command("powershell", "dir " + ruta);
-//
-//		try {
-//			bd = new StringBuilder();
-//			process = pb.start();
-//
-//			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-//
-//			String line = "";
-//
-//			while ((line = reader.readLine()) != null) {
-//
-//				bd.append(line + "\n");
-//			}
-//
-//		System.out.println(bd);
-//
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		
-//		
-//		
-//	}
 
 }
