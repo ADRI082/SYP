@@ -12,6 +12,11 @@ public class Cocinero extends Thread {
 		this.bandeja = bandeja;
 	}
 
+	
+	/**
+	 * Método que hace que el cocinero cocine hamburguesas sin parar para que los clientes no se mueran de hambre
+	 */
+	
 	public void run() {
 
 		while (true) {
