@@ -4,15 +4,22 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
-public class Main {
+public class Main{
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
+		while(true) {
+			
 
 			Document doc = null;
 			try {
@@ -28,22 +35,63 @@ public class Main {
 
 			Element tbody = table.getElementsByTag("tbody").first();
 			
+			
 			StringBuilder rowBuilder = new StringBuilder();
+			
+			int posicionNombre = 0;
+			int posicionFecha = 0;
+			int posicionHora = 0;
+			int posicionUltimo = 0;
 
-			for (Element tr : tbody.getElementsByTag("tr")) { // Busca en cada tr todos los th y los td
+			for (Element tr : tbody.getElementsByTag("tr")) { // Busca en cada tr todos los th y los td 
 				
-
-				for (Element th : tr.getElementsByTag("th")) {
-					rowBuilder.append(th.text() + "  ");
-					rowBuilder.append(" ");
-				}
+				 for (Element th : tr.getElementsByTag("th")) {
+		                
+		                switch(th.text()) {
+		                
+		                case "Nombre":
+		                
+		                	posicionNombre = th.elementSiblingIndex();
+		                	rowBuilder.append(th.text() + "  ");
+		                	rowBuilder.append(" ");
+		                    break;
+		                case "Fecha":
+		                  
+		                    posicionFecha = th.elementSiblingIndex();
+		                	rowBuilder.append(th.text() + "  ");
+		                	rowBuilder.append(" ");
+		                    break;
+		                    
+		                case "Hora":
+			                  
+		                    posicionHora = th.elementSiblingIndex();
+		                	rowBuilder.append(th.text() + "  ");
+		                	rowBuilder.append(" ");
+		                    break;
+		                    
+		                case "Último":
+			                  
+		                    posicionUltimo = th.elementSiblingIndex();
+		                	rowBuilder.append(th.text() + "  ");
+		                	rowBuilder.append(" ");
+		                    break;
+		                }
+		              
+		            }
+				
 				
 				rowBuilder.append("\n");
 
-				for (Element td : tr.getElementsByTag("td")) {
-					rowBuilder.append(td.text() + " ");
-					rowBuilder.append(" ");
-				}	
+				Elements tds = tr.getElementsByTag("td");	
+
+				if (tds.size() > 0){
+					rowBuilder.append(tds.get(posicionNombre).text()+" ");
+					rowBuilder.append(tds.get(posicionUltimo).text()+" ");
+					rowBuilder.append(tds.get(posicionFecha).text()+" ");
+					rowBuilder.append(tds.get(posicionHora).text()+" ");
+					rowBuilder.append("\n");
+					rowBuilder.append("\n");
+				  }	
 				
 			}
 			
@@ -51,7 +99,7 @@ public class Main {
 			
 			BufferedWriter escritor;
 			try {
-				escritor = new BufferedWriter(new FileWriter(new File("fichero.txt")));
+				escritor = new BufferedWriter(new FileWriter(new File("fichero.txt"),true));
 				escritor.append(rowBuilder);
 				escritor.close();
 			} catch (IOException e) {
@@ -59,7 +107,16 @@ public class Main {
 				e.printStackTrace();
 			}
 			
+			try {
+				Thread.sleep(60000);
+			}catch(InterruptedException e) {
+				e.printStackTrace();
+			}
+			
 			
 		}
+		 
+		
+	}
 
 }

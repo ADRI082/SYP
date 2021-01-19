@@ -1,3 +1,8 @@
-Nombre   Anterior   Último   % Dif.   Máximo   Mínimo   Fecha   Hora   % Dif. Año 2021   
+Nombre   Último   Fecha   Hora   
 
-IBEX 35®  8.350,30  8.305,00  -0,54  8.386,20  8.274,10  07/01/2021  12:21:28  2,86  
+IBEX 35® 8.199,00 19/01/2021 17:38:00 
+
+Nombre   Último   Fecha   Hora   
+
+IBEX 35® 8.199,00 19/01/2021 17:38:00 
+
