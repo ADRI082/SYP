@@ -11,6 +11,12 @@ public class ConsolaHelper {
 		
 	}
 	
+	/**
+	 * Método que elige el modo cliente o servidor para introducir un Host y un puerto en el caso de que sea un cliente
+	 * o un puerto en el caso de que sea un servidor
+	 * @param modo
+	 * @return
+	 */
 	
 	public ArrayList<Object> elegirModo(int modo) {
 		
@@ -25,6 +31,11 @@ public class ConsolaHelper {
 		}
 		
 	}
+	
+	/**
+	 * Método que permite introducir el puerto y el host para establecer la conexion con el cliente
+	 * @return
+	 */
 	
 	private ArrayList<Object> consolaCliente(){
 		
@@ -70,6 +81,11 @@ public class ConsolaHelper {
 		return resultados;
 	}
 	
+	
+	/**
+	 * Método que permite introducir el puerto para poder levantar el servidor
+	 * @return
+	 */
 	private ArrayList<Object> consolaServer(){
 		
 		ArrayList<Object> resultado = new ArrayList();
