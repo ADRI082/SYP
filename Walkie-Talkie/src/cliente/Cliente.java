@@ -2,20 +2,41 @@ package cliente;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import menu.ConsolaHelper;
 
 public class Cliente {
 
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-
+		
+		ConsolaHelper consolilla = new ConsolaHelper();
+		
 		Scanner sc = new Scanner(System.in);
+		
+		ArrayList<Object> datos = new ArrayList();
+		
+		Socket Cliente = null;
+		
+		while(true) {
+			try {
+				datos = consolilla.elegirModo(1);
 
-		String Host = "localhost";
-		int Puerto = 6000;// puerto remoto
-
+				String Host = datos.get(0).toString();
+				int Puerto = (int) datos.get(1);// puerto remoto
+				
+				Cliente = new Socket(Host, Puerto);
+				
+				break;
+			}catch(Exception e) {
+				System.out.println("Fallo de conexion");
+			}
+		}
+		
 		System.out.println("PROGRAMA CLIENTE INICIADO....");
-		Socket Cliente = new Socket(Host, Puerto);
+		
 
 		DataOutputStream flujoSalida = new DataOutputStream(Cliente.getOutputStream());
 
@@ -37,11 +58,11 @@ public class Cliente {
 
 				flujoSalida.writeUTF(mensaje);
 
-				if (mensaje.contains("cambio")) {
+				if (mensaje.contains("c")) {
 					puedeEscribir = false;
 				}
 
-				if (mensaje.contains("cambio y corto")) {
+				if (mensaje.contains("cc")) {
 					contiene = true;
 					puedeEscribir = false;
 					puedeEscuchar = false;
@@ -53,11 +74,11 @@ public class Cliente {
 			if (puedeEscuchar) {
 				String mensajeServidor = flujoEntrada.readUTF();
 				System.out.println(" Servidor: \n" + mensajeServidor);
-				if (mensajeServidor.contains("cambio")) {
+				if (mensajeServidor.contains("c")) {
 					puedeEscribir = true;
 				}
 
-				if (mensajeServidor.contains("cambio y corto")) {
+				if (mensajeServidor.contains("cc")) {
 					System.out.println("desconectado");
 					contiene = true;
 				}

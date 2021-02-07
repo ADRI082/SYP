@@ -7,23 +7,34 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import menu.ConsolaHelper;
 
 
 public class Servidor {
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
+		
+		Scanner sc = new Scanner(System.in);
+
+		ConsolaHelper consolilla = new ConsolaHelper();
+		
+		ArrayList<Object> datos = new ArrayList();
+		
+		datos = consolilla.elegirModo(2);
 
 		//Creamos un servidor al cual le establecemos un socket para que cualquier usuario se pueda conectar al servidor
-		ServerSocket servidor;
-		servidor = new ServerSocket(6000);
+		ServerSocket servidor = new ServerSocket((int)datos.get(0)) ;
+
+		
 		System.out.println("Servidor iniciado...");
 
 		Socket cliente = new Socket();
 		cliente = servidor.accept(); //Creamos otro socket para el cliente que se conecta al servidor
 
-		Scanner sc = new Scanner(System.in);
 
 		boolean contiene = false;
 
@@ -43,17 +54,17 @@ public class Servidor {
 
 		while (!contiene) { //Mientras el mensaje que envía o recibe no contenga el mensaje cambio y corto, el bucle sigue adelante
 
-			while (puedeEscribir) { //Podrá escribir mientras el mensaje que escriba no contenga ni "cambio" ni "cambio y corto"
-
+			while (puedeEscribir) {//Podrá escribir mientras el mensaje que escriba no contenga ni "cambio" ni "cambio y corto"
+				
 				String mensaje = sc.nextLine();
 
 				flujoSalida.writeUTF(mensaje);
 
-				if (mensaje.contains("cambio")) { //Si el mensaje contiene cambio, la persona no puede escribir
+				if (mensaje.contains("c")) { //Si el mensaje contiene cambio, la persona no puede escribir
 					puedeEscribir = false;
 				}
 
-				if (mensaje.contains("cambio y corto")) { //Si el mensaje contiene cambio y corto no puede ni leer ni escuchar
+				if (mensaje.contains("cc")) { //Si el mensaje contiene cambio y corto no puede ni leer ni escuchar
 					contiene = true;
 					puedeEscribir = false;
 					puedeEscuchar = false;
@@ -65,11 +76,11 @@ public class Servidor {
 			if (puedeEscuchar) { //Si el mensaje que recibe es cambio, la persona ya puede volver a hablar o a escribir en este caso
 				String mensajeCliente = flujoEntrada.readUTF();
 				System.out.println(" Cliente: \n" + mensajeCliente);
-				if (mensajeCliente.contains("cambio")) {
+				if (mensajeCliente.contains("c")) {
 					puedeEscribir = true;
 				}
 
-				if (mensajeCliente.contains("cambio y corto")) { //Si el mensaje que recibe es cambio y corto, ya no puede ni hablar ni escribir.
+				if (mensajeCliente.contains("cc")) { //Si el mensaje que recibe es cambio y corto, ya no puede ni hablar ni escribir.
 					//El programa se desconecta
 					System.out.println("desconectado");
 					contiene = true;
