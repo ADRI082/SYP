@@ -12,7 +12,8 @@ import javax.mail.internet.MimeMessage;
 public class Email {
 	
 	
-	private static final String username = "";
+	private static final String username = "finalbosspsp@gmail.com";
+	private static final String password = "cosillas";
 	
 	
 	public Email() {
@@ -21,8 +22,7 @@ public class Email {
 	
 	public void sendEmail(String producto) {
 		
-		final String username = "finalbosspsp@gmail.com";
-		final String password = "cosillas";
+		
 
 		Properties prop = new Properties();
 		prop.put("mail.smtp.host", "smtp.gmail.com");
